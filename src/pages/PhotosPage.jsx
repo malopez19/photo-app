@@ -216,11 +216,11 @@ export default function PhotosPage() {
 			{groups.length === 0 ? (
 				<div className="flex min-h-75 flex-col items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center">
 					<h2 className="text-lg font-semibold text-gray-700">
-						No hay medios guardados aún.
+						No hay archivos guardados aún.
 					</h2>
 
 					<p className="mt-2 text-sm text-gray-500">
-						Haz clic en "Subir Media" arriba para agregar tus fotos o videos.
+						Haz clic en "Subir Archivos" arriba para agregar tus fotos o videos.
 					</p>
 				</div>
 			) : (

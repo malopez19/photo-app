@@ -2,10 +2,11 @@ import PhotoCard from "./PhotoCard";
 
 export default function PhotoGrid({
 	groups,
-	selectedIds,
+	selectedIds = [],
 	onToggleSelect,
 	onSelectMedia,
 	onToggleFavorite,
+	onRemovePhoto,
 }) {
 	return (
 		<div className="space-y-8 pb-12">
@@ -14,6 +15,7 @@ export default function PhotoGrid({
 					<h2 className="text-sm font-bold text-slate-500 tracking-wider uppercase top-16 bg-slate-50/90 backdrop-blur-md py-2 z-10">
 						{group.date}
 					</h2>
+
 					<div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4">
 						{group.items.map((item) => (
 							<PhotoCard
@@ -23,6 +25,7 @@ export default function PhotoGrid({
 								onToggleSelect={onToggleSelect}
 								onSelectMedia={onSelectMedia}
 								onToggleFavorite={onToggleFavorite}
+								onRemovePhoto={onRemovePhoto}
 							/>
 						))}
 					</div>

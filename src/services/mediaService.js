@@ -1,17 +1,23 @@
 import { api } from "../config/api";
 
+// Obtener fotografías y vídeos del usuario autenticado.
 export async function getMedia(searchQuery = "") {
-    const res = await api.get("/media", {
-        params: {
-            query: searchQuery,
-        },
-    });
+	const query = searchQuery.trim();
 
-    return res.data.media || [];
+	const response = await api.get("/media", {
+		params: query ? { query } : {},
+	});
+
+	const media = response.data?.media;
+
+	return Array.isArray(media) ? media : [];
 }
 
+// Obtener archivos de la papelera.
 export async function getTrash() {
-    const res = await api.get("/media/trash");
+	const response = await api.get("/media/trash");
 
-    return res.data.media || [];
+	const media = response.data?.media;
+
+	return Array.isArray(media) ? media : [];
 }
