@@ -12,29 +12,20 @@ export function AuthProvider({ children }) {
 		const controller = new AbortController();
 
 		const checkAuth = async () => {
-			const token = localStorage.getItem("token");
-
-			if (!token) {
-				setLoading(false);
-				return;
-			}
-
 			try {
 				const res = await api.get("/auth/me", {
 					signal: controller.signal,
 				});
 
-				setUser(res.data.user);
+				setUser(res.data.user ?? null);
 			} catch (error) {
 				if (controller.signal.aborted) return;
 
-				// Eliminar el token únicamente si no es válido.
-				if (error.response?.status === 401) {
-					localStorage.removeItem("token");
-				}
-
-				console.error("Error al comprobar la sesión:", error);
 				setUser(null);
+
+				if (error.response?.status !== 401) {
+					console.error("Error al comprobar la sesión:", error);
+				}
 			} finally {
 				if (!controller.signal.aborted) {
 					setLoading(false);
@@ -56,13 +47,12 @@ export function AuthProvider({ children }) {
 			password,
 		});
 
-		const { token, user: authenticatedUser } = res.data;
+		const authenticatedUser = res.data.user;
 
-		if (!token || !authenticatedUser) {
+		if (!authenticatedUser) {
 			throw new Error("Respuesta de autenticación inválida.");
 		}
 
-		localStorage.setItem("token", token);
 		setUser(authenticatedUser);
 
 		return res.data;
@@ -76,22 +66,24 @@ export function AuthProvider({ children }) {
 			password,
 		});
 
-		const { token, user: registeredUser } = res.data;
+		const registeredUser = res.data.user;
 
-		if (!token || !registeredUser) {
+		if (!registeredUser) {
 			throw new Error("Respuesta de registro inválida.");
 		}
 
-		localStorage.setItem("token", token);
 		setUser(registeredUser);
 
 		return res.data;
 	};
 
 	// Cerrar sesión.
-	const logout = () => {
-		localStorage.removeItem("token");
-		setUser(null);
+	const logout = async () => {
+		try {
+			await api.post("/auth/logout");
+		} finally {
+			setUser(null);
+		}
 	};
 
 	return (
