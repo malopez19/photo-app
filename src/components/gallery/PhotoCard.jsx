@@ -94,10 +94,17 @@ export default function PhotoCard({
 						<span>{media.duration || "0:15"}</span>
 					</span>
 				) : (
-					<span className="flex items-center gap-1 bg-black/50 backdrop-blur-md px-2 py-1 rounded-lg text-[10px]">
-						<Sparkles className="w-3 h-3 text-indigo-400" />
-						<span>{media.tags?.[0] || "IA Tagged"}</span>
-					</span>
+					<div className="flex items-center gap-1">
+						{media.tags?.slice(0, 2).map((tag, index) => (
+							<span
+								key={index}
+								className="flex items-center gap-1 bg-black/50 backdrop-blur-md px-2 py-1 rounded-lg text-[10px]"
+							>
+								<Sparkles className="w-3 h-3 text-indigo-400" />
+								<span>{tag}</span>
+							</span>
+						))}
+					</div>
 				)}
 			</div>
 		</div>

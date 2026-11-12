@@ -29,7 +29,7 @@ function groupByDate(items) {
 			thumbnailUrl: item.thumbnailUrl,
 			type: item.mediaType,
 			isFavorite: item.isFavorite,
-			tags: item.objects || [],
+			tags: Array.isArray(item.objects) ? item.objects : [],
 			date: dateStr,
 			size: item.size ? (item.size / (1024 * 1024)).toFixed(2) + " MB" : "0 MB",
 		});
