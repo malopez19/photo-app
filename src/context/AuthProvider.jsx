@@ -7,25 +7,46 @@ export function AuthProvider({ children }) {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 
-	// Comprobar el token guardado al cargar la aplicación.
+	// Comprobar la sesión al cargar la aplicación.
 	useEffect(() => {
+		const controller = new AbortController();
+
 		const checkAuth = async () => {
 			const token = localStorage.getItem("token");
 
-			if (token) {
-				try {
-					const res = await api.get("/auth/me");
-					setUser(res.data.user);
-				} catch {
-					localStorage.removeItem("token");
-					setUser(null);
-				}
+			if (!token) {
+				setLoading(false);
+				return;
 			}
 
-			setLoading(false);
+			try {
+				const res = await api.get("/auth/me", {
+					signal: controller.signal,
+				});
+
+				setUser(res.data.user);
+			} catch (error) {
+				if (controller.signal.aborted) return;
+
+				// Eliminar el token únicamente si no es válido.
+				if (error.response?.status === 401) {
+					localStorage.removeItem("token");
+				}
+
+				console.error("Error al comprobar la sesión:", error);
+				setUser(null);
+			} finally {
+				if (!controller.signal.aborted) {
+					setLoading(false);
+				}
+			}
 		};
 
 		checkAuth();
+
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	// Iniciar sesión.
@@ -35,8 +56,14 @@ export function AuthProvider({ children }) {
 			password,
 		});
 
-		localStorage.setItem("token", res.data.token);
-		setUser(res.data.user);
+		const { token, user: authenticatedUser } = res.data;
+
+		if (!token || !authenticatedUser) {
+			throw new Error("Respuesta de autenticación inválida.");
+		}
+
+		localStorage.setItem("token", token);
+		setUser(authenticatedUser);
 
 		return res.data;
 	};
@@ -49,8 +76,14 @@ export function AuthProvider({ children }) {
 			password,
 		});
 
-		localStorage.setItem("token", res.data.token);
-		setUser(res.data.user);
+		const { token, user: registeredUser } = res.data;
+
+		if (!token || !registeredUser) {
+			throw new Error("Respuesta de registro inválida.");
+		}
+
+		localStorage.setItem("token", token);
+		setUser(registeredUser);
 
 		return res.data;
 	};
