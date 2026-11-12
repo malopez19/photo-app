@@ -227,8 +227,8 @@ export default function PhotosPage() {
 				<PhotoGrid
 					groups={groups}
 					selectedIds={selectedIds}
-					onSelect={handleSelect}
-					onOpen={handleOpenMedia}
+					onToggleSelect={handleSelect}
+					onSelectMedia={handleOpenMedia}
 					onToggleFavorite={handleToggleFavorite}
 				/>
 			)}
