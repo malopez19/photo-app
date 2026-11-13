@@ -118,7 +118,7 @@ export default function Sidebar({ refreshTrigger }) {
                     <strong className="text-gray-800">
                         {usedMB} MB
                     </strong>{" "}
-                    de 10 GB usados
+                    de 512 MB usados
                 </p>
 
                 <p className="mt-1 text-xs text-gray-400">
