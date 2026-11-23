@@ -51,7 +51,7 @@ client/
 
 ## Instalación
 ```bash
-git clone https://github.com/TU_USUARIO/my-photos-client.git
+git clone https://github.com/malopez19/photo-app.git
 cd my-photos-client
 npm install
 ```
