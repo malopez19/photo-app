@@ -1,17 +1,81 @@
-# React + Vite
+# MyPhotos – Cliente (Frontend)
+Interfaz web de **MyPhotos**, una aplicación para guardar y organizar tus fotos y videos en la nube. Permite subir archivos, marcarlos como favoritos, organizarlos en álbumes, enviarlos a la papelera y buscarlos por nombre.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Características
+- Registro e inicio de sesión.
+- Galería de **Fotos y Videos**.
+- Sección de **Favoritos**.
+- Gestión de **Álbumes** y vista de detalle de cada álbum.
+- **Papelera** para restaurar o eliminar definitivamente.
+- Barra de búsqueda por nombre.
+- Indicador de **almacenamiento usado** (de 512 MB).
+- Notificaciones con toasts y diseño responsivo.
 
-Currently, two official plugins are available:
+## Tecnologías
+| Área | Herramientas |
+| --- | --- |
+| Framework | React 19 |
+| Bundler | Vite |
+| Estilos | Tailwind CSS 4 |
+| Rutas | React Router 7 |
+| Peticiones HTTP | Axios |
+| Iconos | Lucide React |
+| Notificaciones | React Hot Toast |
+| Calidad de código | ESLint |
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Estructura del proyecto
+```
+client/
+├── public/
+├── src/
+│   ├── assets/
+│   ├── components/
+│   │   ├── gallery/     # Cuadrícula y tarjetas de fotos/videos
+│   │   ├── layout/      # Navbar, sidebar, etc.
+│   │   └── modals/      # Modales (subida, álbumes, confirmaciones)
+│   ├── config/          # Configuración de Axios (api.js)
+│   ├── context/         # AuthContext, AuthProvider y hook useAuth
+│   ├── pages/           # AuthPage, PhotosPage, FavoritePage,
+│   │                    # AlbumsPage, AlbumDetailPage, TrashPage
+│   ├── services/        # mediaService.js
+│   ├── App.jsx
+│   ├── main.jsx
+│   └── index.css
+├── .env
+├── index.html
+└── vite.config.js
+```
 
-## React Compiler
+## Requisitos previos
+- [Node.js](https://nodejs.org/) 20.19 o superior
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Instalación
+```bash
+git clone https://github.com/TU_USUARIO/my-photos-client.git
+cd my-photos-client
+npm install
+```
 
-## Expanding the ESLint configuration
+## Variables de entorno
+Crea un archivo `.env` en la raíz del proyecto:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-# photo-app
+```env
+VITE_API_URL=http://localhost:5000/api
+```
+
+## Scripts
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo con Vite |
+| `npm run build` | Genera la build de producción en `dist/` |
+| `npm run preview` | Previsualiza la build de producción |
+| `npm run lint` | Revisa el código con ESLint |
+
+## Cómo ejecutar el proyecto completo
+
+1. Levanta el backend (`npm run dev` en el repo del servidor).
+2. Levanta el cliente (`npm run dev` en este repo).
+3. Abre `http://localhost:5173` en el navegador.
+
+## Licencia
+Este proyecto está bajo la licencia MIT. 
